@@ -2,21 +2,19 @@
 extern crate diesel;
 extern crate dotenv;
 
-use diesel::{pg::PgConnection, Connection, ConnectionError, QueryDsl};
+use diesel::{pg::PgConnection, Connection, QueryDsl};
 use std::env;
 use self::diesel::prelude::*;
-
-
-
-
 
 mod schema;
 mod model;
 use crate::model::*;
+use crate::operations::siteindex::*;
 
 fn main() {
-
+    // 
     use crate::schema::sitepages::dsl::*;
+    use crate::schema::siteindexs::dsl::*;
 
     // Matches a connection case and panics if no connection is established.
     let connection = match establish_connection() {
@@ -24,19 +22,18 @@ fn main() {
         Some(val) => val  
     };
 
-    let results = sitepages.limit(3)
+    // Example select function.
+    let sitepagesResults = sitepages.limit(3)
                                 .load::<Sitepage>(&connection)
                                 .expect("Error Loading Posts");
 
-    for item in results {
+    for item in sitepagesResults {
         println!("{} | {} | {:?}", item.pageid, item.siteid, item.texturl);
 
     }
-    
 
+    let addIndexResult = operations::addSiteIndex(&connection, "Test", "Test");
 
-    
-    
 }
 
 
