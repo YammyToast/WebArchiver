@@ -14,7 +14,7 @@ use crate::model::*;
 
 fn main() {
     // 
-    use crate::schema::sitepages::dsl::*;
+    //use crate::schema::sitepages::dsl::*;
     use crate::schema::siteindexs::dsl::*;
 
 
@@ -24,17 +24,32 @@ fn main() {
         Some(val) => val  
     };
 
+    
+    // Example insert function.
+    match operations::siteindex::db_Add_Site_Index(&connection, "yammy", ".me") {
+        None => panic!("Insert Statement Failed"),
+        Some(val) => println!("Successfully inserted into Siteindex: {:?}, {:?}", val.name.unwrap(), val.domain.unwrap())
+        
+    };
+    
+    // let sitepages_results = sitepages.limit(3)
+    //                             .load::<Sitepage>(&connection)
+    //                             .expect("Error Loading Posts");
+    
+    let siteindex_results = siteindexs
+    .load::<Siteindex>(&connection)
+    .expect("Error Loading Posts");
+    
+    // for item in sitepages_results {
+        //     println!("{} | {} | {:?}", item.pageid, item.siteid, item.texturl);
+        
+        // }
+        
     // Example select function.
-    let sitepagesResults = sitepages.limit(3)
-                                .load::<Sitepage>(&connection)
-                                .expect("Error Loading Posts");
-
-    for item in sitepagesResults {
-        println!("{} | {} | {:?}", item.pageid, item.siteid, item.texturl);
+    for item in siteindex_results {
+        println!("{:?} | {:?} | {:?}", item.siteid, item.name.unwrap(), item.domain.unwrap());
 
     }
-
-    let addIndexResult = operations::siteindex::addSiteIndex(&connection, "Test", "Test");
 
 }
 

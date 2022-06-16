@@ -35,3 +35,11 @@ pub struct AddSiteIndex<'a> {
     pub name: &'a str,
     pub domain: &'a str,
 }
+
+#[derive(Insertable)]
+#[table_name="sitepages"]
+pub struct AddSitePages<'a> {
+    pub siteid: i32,
+    pub texturl: &'a str,
+
+}
