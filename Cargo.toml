@@ -9,3 +9,6 @@ edition = "2021"
 [dependencies]
 diesel = {version = "1.4.8", features = ["postgres"]}
 dotenv = "0.15.0"
+tokio = "1.18.2"
+reqwest = { version = "0.11.10", features = ["blocking"]}
+error-chain = "0.12.4"

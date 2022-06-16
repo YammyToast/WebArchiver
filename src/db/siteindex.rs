@@ -7,7 +7,7 @@ use diesel::PgConnection;
 // connection: diesel database connection struct.
 // name: name property of the index.
 // domain: domain property of the index.
-pub fn db_Add_Site_Index<'a>(connection: &PgConnection, _name: &'a str, _domain: &'a str) -> Option<Siteindex> {
+pub fn db_add_site_index<'a>(connection: &PgConnection, _name: &'a str, _domain: &'a str) -> Option<Siteindex> {
     use crate::schema::siteindexs;
 
     // Create insert struct (defined in schema)
@@ -29,12 +29,12 @@ pub fn db_Add_Site_Index<'a>(connection: &PgConnection, _name: &'a str, _domain:
     }
 }
 
-pub fn db_Remove_Site_Index_By_Name<'a>(connection: &PgConnection, name_query: &'a str) {
+pub fn db_remove_site_index_by_name<'a>(connection: &PgConnection, name_query: &'a str) {
 
 
 }
 
-pub fn db_Remove_Site_Index_By_Domain<'a>(connection: &PgConnection, domain_query: &'a str){
+pub fn db_remove_site_index_by_domain<'a>(connection: &PgConnection, domain_query: &'a str) {
 
 
 }
