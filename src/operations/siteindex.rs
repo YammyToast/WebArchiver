@@ -1,6 +1,5 @@
-#[macro_use]
-extern crate diesel;
-use crate::model::{SiteIndex, AddSiteIndex};
+use crate::diesel::RunQueryDsl;
+use crate::model::{Siteindex, AddSiteIndex};
 use diesel::PgConnection;
 
 // Add siteindex function.
@@ -8,7 +7,7 @@ use diesel::PgConnection;
 // connection: valid database connection.
 // name: name property of the index.
 // domain: domain property of the index.
-pub fn addSiteIndex<'a>(connection: &PgConnection, _name: &'a str, _domain: &'a str) -> SiteIndex {
+pub fn addSiteIndex<'a>(connection: &PgConnection, _name: &'a str, _domain: &'a str) -> Siteindex {
     use crate::schema::siteindexs;
 
     let new_index = AddSiteIndex {
@@ -16,6 +15,11 @@ pub fn addSiteIndex<'a>(connection: &PgConnection, _name: &'a str, _domain: &'a 
         domain: _domain,
     };
 
-    diesel::insert_into(siteindexs).values(&new_index).get_results(conn).expect("Error creating new post");
+
+    diesel::insert_into(siteindexs::table)
+    .values(&new_index)
+    .get_result(connection)
+    .expect("Error creating new post")
+
 
 }

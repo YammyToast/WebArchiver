@@ -8,13 +8,15 @@ use self::diesel::prelude::*;
 
 mod schema;
 mod model;
+mod operations;
 use crate::model::*;
-use crate::operations::siteindex::*;
+
 
 fn main() {
     // 
     use crate::schema::sitepages::dsl::*;
     use crate::schema::siteindexs::dsl::*;
+
 
     // Matches a connection case and panics if no connection is established.
     let connection = match establish_connection() {
@@ -32,14 +34,14 @@ fn main() {
 
     }
 
-    let addIndexResult = operations::addSiteIndex(&connection, "Test", "Test");
+    let addIndexResult = operations::siteindex::addSiteIndex(&connection, "Test", "Test");
 
 }
 
 
 fn establish_connection() -> Option<PgConnection> {
     // Establish dotenv file stream. 
-    // Standard ::dotenv call loaded sys env's so this is a verbose workaround.
+    // Standard ::dotenv call loaded system env's so this is a workaround.
     dotenv::from_filename(".env").expect("Error locating env file");
 
     // Parse env stream for DATABASE_URL var.

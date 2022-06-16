@@ -1,4 +1,6 @@
+
 use crate::schema::*;
+use crate::schema::siteindexs;
 
 
 #[derive(Queryable, Debug, Identifiable)]
@@ -25,11 +27,11 @@ pub struct Sitepage {
     pub texturl: Option<String>,
 }
 
-use crate::schema::siteindexs;
+
 
 #[derive(Insertable)]
 #[table_name="siteindexs"]
 pub struct AddSiteIndex<'a> {
     pub name: &'a str,
-    pub domain: &'a str
+    pub domain: &'a str,
 }
