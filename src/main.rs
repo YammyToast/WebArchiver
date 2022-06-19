@@ -18,8 +18,10 @@ use error_chain::{error_chain, ChainedError};
 use std::io::Read;
 use reqwest::{Client, Response};
 
+// http Imports
+mod http;
 
-// Request Macro
+// Error-chain Macro
 error_chain! {
     foreign_links {
         Io(std::io::Error);
@@ -67,11 +69,19 @@ fn main() {
     }
 
     let request_url = "https://github.com/YammyToast/WebArchiver".to_string();
-    // Example Web Request
-    match web_request(&request_url) {
+    // URLParse Error
+    // let request_url = "this.is.not.a..valid.ur//l".to_string();
+    // Response Error
+    //let request_url = "https://www.wjgoajgowhoahgoehgoajgoejao.com/".to_string();
+
+    // GET from URL
+    let response = match http::try_request_from_url(&request_url) {
         Ok(val) => val,
-        _ => panic!("Couldn't fetch test site")
-    }
+        Err(http::RequestError { fault, msg }) => panic!("Error of type: \"{:?}\" occured, msg: {}", fault, msg)
+    };
+
+    
+
 
 }
 
@@ -96,23 +106,3 @@ fn establish_connection() -> Option<PgConnection> {
 
 }
 
-
-fn web_request<'a>(web_url: &'a str) -> Result<()> {
-    
-    // Send a blocking request
-    let mut response_object = reqwest::blocking::get(web_url)?;
-
-    // Read body of request
-    let mut body = String::new();
-    response_object.read_to_string(&mut body)?;
-
-    println!("chars: {}", body.len());
-
-    // Get 'name' AND 'domain' as Some(Domain("name.domain"))
-    println!("{:?}", response_object.url().host());
-    
-    // Get 'texturl'
-    println!("{:?}",  response_object.url().to_string());
-
-    Ok(())
-}
