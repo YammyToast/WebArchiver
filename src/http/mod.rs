@@ -1,5 +1,4 @@
-
-// URLParser Imports
+// URLParser Imports -> Checks whether a URL form is valid
 extern crate url as URLParser;
 
 // Reqwest Imports

@@ -1,10 +1,11 @@
+// Serde Imports -> Deserializing URL
+use serde::{Deserialize};
 
-
-
-// Reqwest Imports
+// Reqwest Imports -> HTTP Requests
 use error_chain::{error_chain, ChainedError};
 use std::io::Read;
 use reqwest::blocking::Response;
+use reqwest::Url;
 
 // Local Imports
 use crate::http::{RequestError, Fault, request_error};
@@ -18,7 +19,7 @@ pub fn request_from_url<'a>(url: &'a str) -> Result<Response, RequestError> {
         Err(e) => return Err(request_error(Fault::HttpResponse, e.to_string()))
         
     };
-    println!("{:?}", res);
+    println!("{:?}", res.url());
     
     Ok(res)
 
@@ -40,7 +41,7 @@ pub fn request_from_url<'a>(url: &'a str) -> Result<Response, RequestError> {
 }
 
 
-pub fn parse_host_string(raw_host_string: String) {
+pub fn parse_host_string(url_object: Url) {
     
 
 }

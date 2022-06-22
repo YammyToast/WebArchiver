@@ -19,3 +19,10 @@ CREATE TABLE linkindex
     FromID SERIAL REFERENCES sitepages(PageID),
     ToID SERIAL REFERENCES sitepages(PageID)
 );
+
+CREATE TABLE pagerecords (
+    RecordID SERIAL PRIMARY KEY,
+    PageID SERIAL REFERENCES sitepages(PageID),
+    Date date,
+    VaultID UUID
+);

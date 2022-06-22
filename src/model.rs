@@ -1,4 +1,6 @@
 
+use diesel::sql_types::{Date, Uuid};
+
 use crate::schema::*;
 use crate::schema::siteindexs;
 
@@ -35,6 +37,17 @@ pub struct AddSiteIndex<'a> {
     pub name: &'a str,
     pub domain: &'a str,
 }
+
+
+#[derive(Queryable, Debug, Identifiable)]
+#[primary_key(recordid)]
+pub struct PageRecord {
+    pub recordid: i32,
+    pub pageid: i32,
+    pub date: Date,
+    pub vaultid: Uuid
+}
+
 
 #[derive(Insertable)]
 #[table_name="sitepages"]
