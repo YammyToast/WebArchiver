@@ -1,5 +1,8 @@
 
-use diesel::sql_types::{Date, Uuid};
+use std::time::SystemTime;
+use uuid::Uuid;
+use diesel::sql_types::{Nullable, Timestamp, Uuid};
+
 
 use crate::schema::*;
 use crate::schema::siteindexs;
@@ -29,6 +32,14 @@ pub struct Sitepage {
     pub texturl: Option<String>,
 }
 
+#[derive(Queryable, Debug, Identifiable)]
+#[primary_key(recordid)]
+pub struct Pagerecord {
+    pub recordid: i32,
+    pub pageid: i32,
+    pub date: SystemTime,
+    pub vaultid: Uuid
+}
 
 
 #[derive(Insertable)]
@@ -39,14 +50,6 @@ pub struct AddSiteIndex<'a> {
 }
 
 
-#[derive(Queryable, Debug, Identifiable)]
-#[primary_key(recordid)]
-pub struct PageRecord {
-    pub recordid: i32,
-    pub pageid: i32,
-    pub date: Date,
-    pub vaultid: Uuid
-}
 
 
 #[derive(Insertable)]
@@ -54,5 +57,15 @@ pub struct PageRecord {
 pub struct AddSitePages<'a> {
     pub siteid: i32,
     pub texturl: &'a str,
+
+}
+
+
+#[derive(Insertable)]
+#[table_name="pagerecords"]
+pub struct AddPageRecords{
+    pub pageid: i32,
+    pub date: SystemTime,
+    pub vaultid: Uuid
 
 }

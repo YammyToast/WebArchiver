@@ -23,6 +23,6 @@ CREATE TABLE linkindex
 CREATE TABLE pagerecords (
     RecordID SERIAL PRIMARY KEY,
     PageID SERIAL REFERENCES sitepages(PageID),
-    Date date,
-    VaultID UUID
+    Date timestamp,
+    VaultID uuid
 );

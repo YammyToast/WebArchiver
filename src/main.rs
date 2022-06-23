@@ -2,6 +2,9 @@
 extern crate diesel;
 extern crate dotenv;
 
+
+use core::ops::*;
+
 // Database Imports
 use diesel::{pg::PgConnection, Connection, QueryDsl};
 use std::env;

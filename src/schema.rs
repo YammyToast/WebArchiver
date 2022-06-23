@@ -10,8 +10,8 @@ table! {
     pagerecords (recordid) {
         recordid -> Int4,
         pageid -> Int4,
-        date -> Nullable<Date>,
-        vaultid -> Nullable<Uuid>,
+        date -> Timestamp,
+        vaultid -> Uuid,
     }
 }
 
