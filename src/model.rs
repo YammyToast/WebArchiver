@@ -1,7 +1,7 @@
 
 use std::time::SystemTime;
 use uuid::Uuid;
-use diesel::sql_types::{Nullable, Timestamp, Uuid};
+use diesel::sql_types::{Nullable, Timestamp};
 
 
 use crate::schema::*;

@@ -3,10 +3,8 @@ extern crate diesel;
 extern crate dotenv;
 
 
-use core::ops::*;
-
 // Database Imports
-use diesel::{pg::PgConnection, Connection, QueryDsl};
+use diesel::{pg::PgConnection, Connection};
 use std::env;
 use self::diesel::prelude::*;
 
@@ -16,13 +14,12 @@ mod model;
 mod db;
 use crate::model::*;
 
-// Reqwest Imports
-use error_chain::{error_chain, ChainedError};
-use std::io::Read;
-use reqwest::{Client, Response};
-
 // http Imports
 mod http;
+
+// Reqwest Imports
+use error_chain::{error_chain};
+
 
 // Error-chain Macro
 error_chain! {
@@ -46,11 +43,11 @@ fn main() {
 
     
     // Example insert function.
-    match db::siteindex::db_add_site_index(&connection, "yammy", ".me") {
-        None => panic!("Insert Statement Failed"),
-        Some(val) => println!("Successfully inserted into Siteindex: {:?}, {:?}", val.name.unwrap(), val.domain.unwrap())
+    // match db::siteindex::db_add_site_index(&connection, "yammy", ".me") {
+    //     None => panic!("Insert Statement Failed"),
+    //     Some(val) => println!("Successfully inserted into Siteindex: {:?}, {:?}", val.name.unwrap(), val.domain.unwrap())
         
-    };
+    // };
     
     // let sitepages_results = sitepages.limit(3)
     //                             .load::<Sitepage>(&connection)
@@ -61,15 +58,7 @@ fn main() {
         // }
         
     
-    let siteindex_results = siteindexs
-    .load::<Siteindex>(&connection)
-    .expect("Error Loading Posts");
     
-    // Example select function.
-    for item in siteindex_results {
-        println!("{:?} | {:?} | {:?}", item.siteid, item.name.unwrap(), item.domain.unwrap());
-
-    }
 
     let request_url = "https://github.com/YammyToast/WebArchiver".to_string();
     // URLParse Error
@@ -83,6 +72,7 @@ fn main() {
         Err(http::RequestError { fault, msg }) => panic!("Error of type: \"{:?}\" occured, msg: {}", fault, msg)
     };
 
+    
     
 
 

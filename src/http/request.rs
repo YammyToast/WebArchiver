@@ -19,10 +19,10 @@ pub fn request_from_url<'a>(url: &'a str) -> Result<Response, RequestError> {
         Err(e) => return Err(request_error(Fault::HttpResponse, e.to_string()))
         
     };
-    println!("{:?}", res.url());
     
     Ok(res)
-
+    
+    //println!("{:?}", res.url());
 
     
 
@@ -40,8 +40,3 @@ pub fn request_from_url<'a>(url: &'a str) -> Result<Response, RequestError> {
 
 }
 
-
-pub fn parse_host_string(url_object: Url) {
-    
-
-}
