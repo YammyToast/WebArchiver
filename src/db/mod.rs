@@ -1,20 +1,28 @@
 // Diesel Imports
 use diesel::{RunQueryDsl, PgConnection, QueryDsl, ExpressionMethods};
 
-mod vault;
+
 pub mod siteindex;
 pub mod pagerecord;
 
 
 pub fn create_site_index<'a>(connection: &PgConnection, name: &'a str, domain: &'a str) -> Result<(), String> {
-    match siteindex::db_check_existing_name(connection, name) {
-        Err(e) => match e {
-            Some(index) => Err(format!("Site Index already exists with ID: {}", index).to_string()),
-            None => Err("Error connecting to DB for existing name check".to_string())
-        },
-        Ok(_) => match siteindex::db_add_site_index(connection, name, domain) {
-            None => Err("Site Index couldn't be added to DB succesfully".to_string()),
-            Some(_) => Ok(())
+    // Check for existing record for this website name.
+    match siteindex::db_get_records_by_name(connection, name) {
+        // Check function can't connect to the DB.
+        Err(_) => Err("Error connecting to DB for existing index check".to_string()),
+        // The check function was able to return a Vec of records.
+        Ok(list) => match list.len() {
+            // If there is one or more records, i.e. the site already exists,
+            // then don't add a duplicate.
+            1.. => Err(format!("Site Index already exists with ID: {}", list.first().unwrap().siteid).to_string()),
+            // If no records exist for this name, allow name to be added to DB.
+            0 => match siteindex::db_add_site_index(connection, name, domain) {
+                None => Err("Site Index couldn't be added to DB succesfully".to_string()), 
+                Some(_) => Ok(())
+            },
+            // Only thrown if a list is returned, but there is neither 0, or 1.. items.
+            _ => Err("Malformed list object from existing index check".to_string())
         }
     }
 

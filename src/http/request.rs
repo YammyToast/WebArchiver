@@ -14,13 +14,12 @@ use crate::http::{RequestError, Fault, request_error};
 pub fn request_from_url<'a>(url: &'a str) -> Result<Response, RequestError> {
 
     // Attempt a GET request using the URL
-    let mut res = match reqwest::blocking::get(url) {
-        Ok(val) => val,
+    match reqwest::blocking::get(url) {
+        Ok(val) => Ok(val),
         Err(e) => return Err(request_error(Fault::HttpResponse, e.to_string()))
         
-    };
-    
-    Ok(res)
+    }
+
     
     //println!("{:?}", res.url());
 

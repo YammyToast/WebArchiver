@@ -34,15 +34,12 @@ pub fn db_add_site_index<'a>(connection: &PgConnection, _name: &'a str, _domain:
     }
 }
 
-pub fn db_check_existing_name<'a>(connection: &PgConnection, check_query: &'a str) -> Result<(), Option<i32>> {
-    match siteindexs.filter(domain.eq(check_query)).load::<Siteindex>(connection) {
-        Err(_) => Err(None),
-        Ok(list) => match list.len() {
-        // Should never be greater than 1, but have range just in case.
-            1.. => Err(Some(list.first().unwrap().siteid)),
-            _ => Ok(())
-        }
-    }
+pub fn db_get_records_by_name<'a>(connection: &PgConnection, check_query: &'a str) -> Result<Vec<Siteindex>, ()> {
+    match siteindexs.filter(name.eq(check_query)).load::<Siteindex>(connection){
+        Err(_) => Err(()),
+        Ok(list) => Ok(list)
+    } 
+
 }
 
 pub fn db_check_id_exists(connection: &PgConnection, check_id: i32) -> Result<bool, ()> {
@@ -50,8 +47,8 @@ pub fn db_check_id_exists(connection: &PgConnection, check_id: i32) -> Result<bo
         Err(_) => Err(()),
         Ok(list) => match list.len() {
             0 => Ok(false),
-            1.. => Ok(true)
-
+            1.. => Ok(true),  
+            _ => Err(())
         }
 
     }
