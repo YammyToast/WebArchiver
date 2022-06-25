@@ -24,14 +24,11 @@ pub fn db_add_page_record(connection: &PgConnection, _pageid : i32) -> Option<Pa
 
     // Perform insert.
     // TODO: Improve error handling.
-    let result = diesel::insert_into(pagerecords::table)
-    .values(&new_record)
-    .get_result(connection);
-
-    match result {
+    match diesel::insert_into(pagerecords::table).values(&new_record).get_result(connection) {
         Ok(val) => Some(val),
-        _ => None
+        Err(e) => None
 
     }
 
 }
+

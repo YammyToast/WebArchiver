@@ -23,18 +23,14 @@ pub fn db_add_site_index<'a>(connection: &PgConnection, _name: &'a str, _domain:
 
     // Perform insert.
     // TODO: Improve error handling.
-    let result = diesel::insert_into(siteindexs::table)
-    .values(&new_index)
-    .get_result(connection);
-
-    match result {
+    match diesel::insert_into(siteindexs::table).values(&new_index).get_result(connection) {
         Ok(val) => Some(val),
         _ => None
 
     }
 }
 
-pub fn db_get_records_by_name<'a>(connection: &PgConnection, check_query: &'a str) -> Result<Vec<Siteindex>, ()> {
+pub fn db_get_records<'a>(connection: &PgConnection, check_query: &'a str) -> Result<Vec<Siteindex>, ()> {
     match siteindexs.filter(name.eq(check_query)).load::<Siteindex>(connection){
         Err(_) => Err(()),
         Ok(list) => Ok(list)

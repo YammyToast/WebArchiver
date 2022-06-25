@@ -58,7 +58,7 @@ fn main() {
     }
     
 
-    match db::siteindex::db_get_records_by_name(&connection, "yammy") {
+    match db::siteindex::db_get_records(&connection, "yammy") {
         Err(_) => println!("got here for some reason"),
         Ok(list) => {
             for record in list {
@@ -67,7 +67,30 @@ fn main() {
         }
     }
 
+
+    // match db::create_page_record(&connection, 1) {
+    //     Err(e) => println!("{:?}", e),
+    //     Ok(_) => {}
+    // }
+
+    match db::create_site_page(&connection, 1, "swag.com/antiswag") {
+        Err(e) => println!("{:?}", e),
+        Ok(_) => {}
+
+    }
+
+    match db::sitepages::db_get_records(&connection, 1) {
+        Err(_) => println!(),
+        Ok(list) => {
+            println!("\n\n");
+            for record in list {
+                println!("{:?} | {:?} | {:?}", record.pageid, record.siteid, record.texturl.unwrap())
+            }
+        }
+    }
     
+   
+
 
 
 }
