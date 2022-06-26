@@ -4,3 +4,5 @@ DROP TABLE siteindex;
 DROP TABLE sitepages;
 
 DROP TABLE linkindex;
+
+DROP TABLE pagerecords;

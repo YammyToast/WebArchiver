@@ -7,6 +7,15 @@ table! {
 }
 
 table! {
+    pagerecords (recordid) {
+        recordid -> Int4,
+        pageid -> Int4,
+        date -> Timestamp,
+        vaultid -> Uuid,
+    }
+}
+
+table! {
     siteindexs (siteid) {
         siteid -> Int4,
         name -> Nullable<Varchar>,
@@ -22,10 +31,12 @@ table! {
     }
 }
 
+joinable!(pagerecords -> sitepages (pageid));
 joinable!(sitepages -> siteindexs (siteid));
 
 allow_tables_to_appear_in_same_query!(
     linkindexs,
+    pagerecords,
     siteindexs,
     sitepages,
 );
