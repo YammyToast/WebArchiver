@@ -1,7 +1,7 @@
 
 use std::time::SystemTime;
 use uuid::Uuid;
-use diesel::sql_types::{Nullable, Timestamp};
+
 
 
 use crate::schema::*;
@@ -60,6 +60,12 @@ pub struct AddSitePages<'a> {
 
 }
 
+#[derive(Insertable)]
+#[table_name="linkindexs"]
+pub struct AddLinkIndex{
+    pub fromid: i32,
+    pub toid: i32
+}
 
 #[derive(Insertable)]
 #[table_name="pagerecords"]
@@ -67,5 +73,4 @@ pub struct AddPageRecords{
     pub pageid: i32,
     pub date: SystemTime,
     pub vaultid: Uuid
-
 }

@@ -72,23 +72,41 @@ fn main() {
     //     Err(e) => println!("{:?}", e),
     //     Ok(_) => {}
     // }
-
+    println!("\n\n");
     match db::create_site_page(&connection, 1, "swag.com/antiswag") {
         Err(e) => println!("{:?}", e),
         Ok(_) => {}
 
     }
 
-    match db::sitepages::db_get_records(&connection, 1) {
-        Err(_) => println!(),
+    match db::sitepage::db_get_records(&connection, 1) {
+        Err(_) => println!("Couldn't get site-page records"),
         Ok(list) => {
-            println!("\n\n");
+            
             for record in list {
                 println!("{:?} | {:?} | {:?}", record.pageid, record.siteid, record.texturl.unwrap())
             }
         }
     }
     
+    println!("\n\n");
+    match db::create_link_index(&connection, 8, 3) {
+        Err(e) => println!("{:?}", e),
+        Ok(_) => {}
+    }
+
+    match db::linkindex::db_get_records_from(&connection, 8) {
+        Err(_) => println!("Couldn't get link-index records"),
+        Ok(list) => {
+            
+            for record in list {
+                println!("{:?} | {:?} | {:?}", record.linkid, record.fromid, record.toid);
+
+            }
+
+        }
+
+    }
    
 
 

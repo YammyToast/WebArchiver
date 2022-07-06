@@ -31,4 +31,15 @@ pub fn db_get_records(connection: &PgConnection, _siteid: i32) -> Result<Vec<Sit
 }
 
 
+pub fn db_check_id_exists(connection: &PgConnection, check_id: i32) -> Result<bool, ()> {
+    match sitepages.filter(pageid.eq(check_id)).load::<Sitepage>(connection){
+        Err(_) => Err(()),
+        Ok(list) => match list.len() {
+            0 => Ok(false),
+            1.. => Ok(true),  
+            _ => Err(())
+        }
 
+    }
+
+}
